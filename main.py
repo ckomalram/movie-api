@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 
 app = FastAPI()
 # app.title ='Mi primera app con fast api'
@@ -47,3 +47,19 @@ def get_movies_with_query(category: str):
     if not movies:
         return []    
     return movies
+
+# crear metodo post. importar metodo BOdy, hacer un append a la lista de movies.
+@app.post('/movies', tags=['movies'])
+def create_movie(id: int = Body(), title: str = Body(),
+                  overview: str = Body(), year: str = Body(), 
+                  rating: float = Body(),category: str = Body()):
+    _movies.append({
+        "id": id,
+        "title": title,
+        "overview": overview,
+        "year": year,
+        "rating": rating,
+        "category": category
+    })
+    
+    return _movies
