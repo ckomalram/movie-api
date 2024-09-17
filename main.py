@@ -53,6 +53,7 @@ def get_movies_with_query(category: str):
 def create_movie(id: int = Body(), title: str = Body(),
                   overview: str = Body(), year: str = Body(), 
                   rating: float = Body(),category: str = Body()):
+    
     _movies.append({
         "id": id,
         "title": title,
@@ -63,3 +64,23 @@ def create_movie(id: int = Body(), title: str = Body(),
     })
     
     return _movies
+
+@app.put('/movies/{id}', tags=['movies'])
+def update_movie(id: int, title: str = Body(),
+                  overview: str = Body(), year: str = Body(), 
+                  rating: float = Body(),category: str = Body()):
+    for movie in _movies:
+        if movie['id'] == id:
+            movie['title'] = title
+            movie['overview'] = overview
+            movie['year'] = year
+            movie['rating'] = rating
+            movie['category'] = category
+            return _movies
+        
+@app.delete('/movies/{id}', tags=['movies'])
+def delete_movie(id: int):
+    for movie in _movies:
+        if movie['id'] == id:
+            _movies.remove(movie)
+            return _movies
